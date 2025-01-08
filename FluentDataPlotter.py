@@ -31,22 +31,22 @@ class FluentDataPlotter(QtWidgets.QMainWindow):
         self.layout = QtWidgets.QVBoxLayout()
         self.central_widget.setLayout(self.layout)
 
+        self.layout.setSpacing(0)
+        self.layout.setContentsMargins(0, 0, 0, 0)
+
         # align to the top
         # self.layout.setAlignment(QtCore.Qt.AlignTop)
 
         # Choose file Frame
 
         fileFrame = QtWidgets.QFrame()
-        fileFrame.setFrameShape(QtWidgets.QFrame.Box)
+        # fileFrame.setFrameShape(QtWidgets.QFrame.Box)
         fileFrame.setLineWidth(2)
         
 
         fileFrameLayout = QtWidgets.QVBoxLayout()
-        # frameLayout.addWidget(QtWidgets.QLabel("Choose an option:"))
 
         # Open File button 
-        self.open_file_button = QtWidgets.QPushButton("Open File")
-        self.open_file_button.clicked.connect(self.open_file_dialog)
         self.open_file_button = QtWidgets.QPushButton("Open File")
         self.open_file_button.clicked.connect(self.open_file_dialog)
         self.open_file_button.setMinimumWidth(self.MIN_BOX_WIDTH)
@@ -59,12 +59,14 @@ class FluentDataPlotter(QtWidgets.QMainWindow):
 
         fileFrameLayout.addWidget(self.open_file_button)
 
+
+
         fileFrame.setLayout(fileFrameLayout)
 
         self.layout.addWidget(fileFrame)
 
         labelsFrame = QtWidgets.QFrame()
-        labelsFrame.setFrameShape(QtWidgets.QFrame.Box)
+        # labelsFrame.setFrameShape(QtWidgets.QFrame.Box)
         labelsFrame.setLineWidth(2)
 
         labelsFrameLayout = QtWidgets.QVBoxLayout()
@@ -98,6 +100,8 @@ class FluentDataPlotter(QtWidgets.QMainWindow):
 
         self.layout.addWidget(labelsFrame)
 
+        # Stretch final button to the bottom of the screen.
+        self.layout.addStretch(1)
 
         # execute button
         self.execute_button = QtWidgets.QPushButton("Create graph")
@@ -127,6 +131,8 @@ class FluentDataPlotter(QtWidgets.QMainWindow):
                 next(file)
             
             # Read the lables
+            # First: Strip the line of any extra characters
+            # labels are in the format "('label1', 'label2', ...)"
             labels = file.readline().strip('').strip('(').strip(')').strip("'").split()
             self.labels = labels
 
