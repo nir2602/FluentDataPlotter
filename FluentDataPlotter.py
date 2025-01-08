@@ -2,7 +2,7 @@ from PySide6 import QtCore, QtWidgets, QtGui
 import matplotlib.pyplot as plt 
 import numpy as np
 
-class FileOpenerWindow(QtWidgets.QMainWindow):
+class FluentDataPlotter(QtWidgets.QMainWindow):
 
     MIN_BOX_WIDTH = 75
     MIN_BOX_HEIGHT = 35
@@ -32,7 +32,7 @@ class FileOpenerWindow(QtWidgets.QMainWindow):
         self.central_widget.setLayout(self.layout)
 
         # align to the top
-        self.layout.setAlignment(QtCore.Qt.AlignTop)
+        # self.layout.setAlignment(QtCore.Qt.AlignTop)
 
         # Choose file Frame
 
@@ -63,47 +63,46 @@ class FileOpenerWindow(QtWidgets.QMainWindow):
 
         self.layout.addWidget(fileFrame)
 
-        # self.open_file_button = QtWidgets.QPushButton("Open File")
-        # self.open_file_button.clicked.connect(self.open_file_dialog)
-        # self.open_file_button.setMinimumWidth(self.MIN_BOX_WIDTH)
-        # self.open_file_button.setMaximumWidth(self.MAX_BOX_WIDTH)
-        # self.open_file_button.setMinimumHeight(self.MIN_BOX_HEIGHT)
-        # self.layout.addWidget(self.open_file_button)
+        labelsFrame = QtWidgets.QFrame()
+        labelsFrame.setFrameShape(QtWidgets.QFrame.Box)
+        labelsFrame.setLineWidth(2)
 
-        # Label to display the selected file
-        # self.file_label = QtWidgets.QLabel("No file selected")
-        # self.layout.addWidget(self.file_label)
+        labelsFrameLayout = QtWidgets.QVBoxLayout()
 
         # Load labels button
         self.load_labels_button = QtWidgets.QPushButton("Load Labels")
         self.load_labels_button.clicked.connect(self.load_labels)
         self.layout.addWidget(self.load_labels_button)
 
+        labelsFrameLayout.addWidget(self.load_labels_button)
+        
+        labelsFrameLayout.addWidget(QtWidgets.QLabel("Choose labels:"))
+
+
         # Label to display the labels
-        self.label_label = QtWidgets.QLabel("Labels: ")
         self.x_label = QtWidgets.QComboBox()
+        self.x_label.setPlaceholderText("X Label")
+
         self.y_label = QtWidgets.QComboBox()
+        self.y_label.setPlaceholderText("Y Label")
 
-        self.layout.addWidget(self.label_label)
-        self.layout.addWidget(self.x_label)
-        self.layout.addWidget(self.y_label)
+        # labelsFrameLayout.addWidget(self.label_label, alignment=QtCore.Qt.AlignTop)
+        labelsFrameLayout.addWidget(self.x_label, alignment=QtCore.Qt.AlignTop)
+        labelsFrameLayout.addWidget(self.y_label, alignment=QtCore.Qt.AlignTop)
 
-        # frame = QtWidgets.QFrame()
-        # frame.setFrameShape(QtWidgets.QFrame.Box)
-        # frame.setLineWidth(2)
 
-        # frameLayout = QtWidgets.QVBoxLayout()
-        # frameLayout.addWidget(QtWidgets.QLabel("Choose an option:"))
-        # frameLayout.addWidget(QtWidgets.QPushButton("Option 1"))
-        # frameLayout.addWidget(QtWidgets.QPushButton("Option 2"))
-        # frame.setLayout(frameLayout)
+        
+        labelsFrame.setLayout(labelsFrameLayout)
 
-        # self.layout.addWidget(frame)
+        self.layout.setContentsMargins(10, 10, 10, 10)
+
+        self.layout.addWidget(labelsFrame)
+
 
         # execute button
         self.execute_button = QtWidgets.QPushButton("Create graph")
         self.execute_button.clicked.connect(self.create_graph)
-        self.layout.addWidget(self.execute_button)
+        self.layout.addWidget(self.execute_button, alignment=QtCore.Qt.AlignBottom)
         
 
     def open_file_dialog(self):
@@ -136,8 +135,6 @@ class FileOpenerWindow(QtWidgets.QMainWindow):
             QtWidgets.QMessageBox.warning(self, "Error", "File does not contain two columns of data")
             return
         
-        print(self.labels)
-
         # Display labels
         self.x_label.clear()
         self.y_label.clear()
@@ -180,6 +177,6 @@ class FileOpenerWindow(QtWidgets.QMainWindow):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
-    window = FileOpenerWindow()
+    window = FluentDataPlotter()
     window.show()
     app.exec()
