@@ -92,8 +92,6 @@ class FluentDataPlotter(QtWidgets.QMainWindow):
         labelsFrameLayout.addWidget(self.x_label, alignment=QtCore.Qt.AlignTop)
         labelsFrameLayout.addWidget(self.y_label, alignment=QtCore.Qt.AlignTop)
 
-
-        
         labelsFrame.setLayout(labelsFrameLayout)
 
         self.layout.setContentsMargins(10, 10, 10, 10)
@@ -138,7 +136,7 @@ class FluentDataPlotter(QtWidgets.QMainWindow):
 
         # Check if the file contains two columns of data
         if len(labels) < 2:
-            QtWidgets.QMessageBox.warning(self, "Error", "File does not contain two columns of data")
+            QtWidgets.QMessageBox.warning(self, "Error", "File does not contain at least two columns of data")
             return
         
         # Display labels
@@ -177,7 +175,6 @@ class FluentDataPlotter(QtWidgets.QMainWindow):
             plt.xlabel(f"{self.x_label.currentText().strip('"')}")
             plt.ylabel(f"{self.y_label.currentText().strip('"')}")
             plt.title(f"{self.y_label.currentText().strip('"')} vs {self.x_label.currentText().strip('"')} figure")
-            # plt.gcf().canvas.
             plt.show()
 
 
