@@ -178,6 +178,13 @@ class FluentDataPlotter(QtWidgets.QMainWindow):
 
         except Exception as e:
             QtWidgets.QMessageBox.critical(self, "Error", f"Failed to create graph: {e}")
+        
+        return 
+    
+    def closeEvent(self, event):
+        # Display a message box to confirm exit
+        reply = QtWidgets.QMessageBox.question(self, "Exit", "Are you sure you want to exit?", QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+        return super().closeEvent(event) if reply == QtWidgets.QMessageBox.Yes else event.ignore()
 
 
 
