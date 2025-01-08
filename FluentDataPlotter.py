@@ -168,11 +168,16 @@ class FluentDataPlotter(QtWidgets.QMainWindow):
             x = data[:, x_label_index]
             y = data[:, y_label_index]
 
+
+            # Title of window
+            plt.figure(f"{self.y_label.currentText()} vs {self.x_label.currentText()}")
+
             # Create a plot
             plt.plot(x, y)
-            plt.xlabel(f"{self.x_label.currentText()}")
-            plt.ylabel(f"{self.y_label.currentText()}")
-            plt.title(f"{self.y_label.currentText()} vs {self.x_label.currentText()}")
+            plt.xlabel(f"{self.x_label.currentText().strip('"')}")
+            plt.ylabel(f"{self.y_label.currentText().strip('"')}")
+            plt.title(f"{self.y_label.currentText().strip('"')} vs {self.x_label.currentText().strip('"')} figure")
+            # plt.gcf().canvas.
             plt.show()
 
 
@@ -184,6 +189,13 @@ class FluentDataPlotter(QtWidgets.QMainWindow):
     def closeEvent(self, event):
         # Display a message box to confirm exit
         reply = QtWidgets.QMessageBox.question(self, "Exit", "Are you sure you want to exit?", QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+
+        # Do not close the window if a figure is open
+        if plt.get_fignums():
+            QtWidgets.QMessageBox.warning(self, "Warning", "Please close any open figures first!")
+            event.ignore()
+            return
+
         return super().closeEvent(event) if reply == QtWidgets.QMessageBox.Yes else event.ignore()
 
 
